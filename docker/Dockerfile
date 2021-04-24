@@ -1,7 +1,7 @@
 FROM node:14-alpine3.12 as base
 
 WORKDIR /app
-RUN apk add --no-cache tzdata eudev
+RUN apk add --no-cache tzdata eudev dumb-init
 
 COPY package.json ./
 
@@ -30,4 +30,4 @@ ARG COMMIT
 RUN echo "{\"hash\": \"$COMMIT\"}" > .hash.json
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["npm", "start"]
+CMD ["dumb-init", "node", "index.js"]
